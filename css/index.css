@@ -1,7 +1,6 @@
 body {
     text-align: center;
     font-style: italic;
-    background-color: #52F1FF;
 }
 
 .clockHeader {
@@ -11,4 +10,24 @@ body {
 p {
     font-size: 2em;
     font-family: "Lucida Console", Monaco, monospace
+}
+
+.cold {
+    background-color: #95A5A6;
+}
+
+.chilly {
+    background-color: #1ABC9C;
+}
+
+.nice {
+    background-color: #2980B9;
+}
+
+.warm {
+    background-color: #E67E22;
+}
+
+.hot {
+    background-color: #E74C3C;
 }
