@@ -7,6 +7,10 @@ body {
     font-size: 6em;
 }
 
+.pullRight {
+   float: right;
+}
+
 .padLeft {
    padding-left: 5px;
 }
