@@ -127,7 +127,7 @@ function signInCallback(authResult) {
     });
     request.execute(function(resp) {
        user_id = resp.id
-       $("signInContainer").addClass("hide")
+       $("#signInContainer").addClass("hide")
        $("#alarmContainer").removeClass("hide")
        getAllAlarms()
     });
