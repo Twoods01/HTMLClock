@@ -44,11 +44,15 @@ function hideAlarmPopup() {
    $("#mask").addClass("hide");
 }
 
+var user_id = null;
+
 function getAllAlarms() {
 
    Parse.initialize("9wVKj7FtVb3xpTPXJLLowOd1JDxa32JX7TqIElLH", "LrilQx72ISPCSScfHhFWWZ1zXMWFxi5a9bfkb9P8");
+
    var AlarmObject = Parse.Object.extend("Alarm");
    var query = new Parse.Query(AlarmObject);
+   query.equalTo("user_id", user_id);
    query.find({
      success: function(results) {
          for (var i = 0; i < results.length; i++) {
@@ -105,7 +109,7 @@ function addAlarm() {
 
    var AlarmObject = Parse.Object.extend("Alarm");
    var alarmObject = new AlarmObject();
-   alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm, "alarmName": name}, {
+   alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm, "alarmName": name, "user_id": user_id}, {
    success: function(object) {
       console.log(object)
       insertAlarm(hours, mins, ampm, name, object.id);
@@ -114,7 +118,26 @@ function addAlarm() {
    });
 }
 
+function signInCallback(authResult) {
+  if (authResult['status']['signed_in']) {
+    //Use auth token to get user information
+    gapi.client.load('plus','v1', function(){
+    var request = gapi.client.plus.people.get({
+       'userId': 'me'
+    });
+    request.execute(function(resp) {
+       user_id = resp.id
+       $("signInContainer").addClass("hide")
+       $("#alarmContainer").removeClass("hide")
+       getAllAlarms()
+    });
+   });
+
+  } else {
+    console.log('Sign-in state: ' + authResult['error']);
+  }
+}
+
 $(document).ready(function(){
     getTemp();
-    getAllAlarms()
 })
