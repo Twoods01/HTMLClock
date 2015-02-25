@@ -48,8 +48,6 @@ var user_id = null;
 
 function getAllAlarms() {
 
-   Parse.initialize("9wVKj7FtVb3xpTPXJLLowOd1JDxa32JX7TqIElLH", "LrilQx72ISPCSScfHhFWWZ1zXMWFxi5a9bfkb9P8");
-
    var AlarmObject = Parse.Object.extend("Alarm");
    var query = new Parse.Query(AlarmObject);
    query.equalTo("user_id", user_id);
@@ -80,6 +78,7 @@ function deleteAlarm(){
        obj.destroy({});
        //Remove the div from HTML
        clickedButton.parent("div").remove();
+       ga('send', 'event', 'Alarm', 'Delete');
      },
 
      error: function(object, error) {
@@ -98,6 +97,7 @@ function insertAlarm(hours, mins, ampm, name, id) {
 
    newDiv.append(nameDiv).append(timeDiv).append(delButton);
    $("#alarms").append(newDiv);
+
 }
 
 function addAlarm() {
@@ -114,6 +114,7 @@ function addAlarm() {
       console.log(object)
       insertAlarm(hours, mins, ampm, name, object.id);
       hideAlarmPopup();
+      ga('send', 'event', 'Alarm', 'Add');
    }
    });
 }
@@ -139,5 +140,6 @@ function signInCallback(authResult) {
 }
 
 $(document).ready(function(){
+    Parse.initialize("9wVKj7FtVb3xpTPXJLLowOd1JDxa32JX7TqIElLH", "LrilQx72ISPCSScfHhFWWZ1zXMWFxi5a9bfkb9P8");
     getTemp();
 })
